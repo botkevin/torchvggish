@@ -166,6 +166,8 @@ class VGGish(VGG):
     def forward(self, x, fs=None):
         if self.preprocess:
             x = self._preprocess(x, fs)
+        if next(self.parameters()).is_cuda:
+            x = x.cuda()
         x = VGG.forward(self, x)
         if self.postprocess:
             x = self._postprocess(x)
